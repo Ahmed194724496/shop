@@ -1,0 +1,5 @@
+"venv/" 
+
+# Django specific
+
+__pycache__/
