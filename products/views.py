@@ -1,7 +1,7 @@
 from rest_framework import viewsets, filters
 from django_filters.rest_framework import DjangoFilterBackend
 from .models import Product, Category
-from api.serializers import ProductSerializer, CategorySerializer  # ⬅️ استورد من api
+from api.serializers import ProductSerializer, CategorySerializer
 
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
