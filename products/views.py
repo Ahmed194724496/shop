@@ -1,10 +1,16 @@
-from django.http import JsonResponse
-from django.shortcuts import get_object_or_404
-from .models import Product
+from rest_framework import viewsets, filters
+from django_filters.rest_framework import DjangoFilterBackend
+from .models import Product, Category
+from api.serializers import ProductSerializer, CategorySerializer  # ⬅️ استورد من api
 
-def product_list(request):
-    products = Product.objects.all() if hasattr(Product, 'objects') else []
-    return JsonResponse({'message': 'Product list works!', 'count': len(products)})
+class ProductViewSet(viewsets.ModelViewSet):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+    search_fields = ['name', 'description']
+    ordering_fields = ['price', 'created_date']
+    filterset_fields = ['category', 'stock_quantity']
 
-def product_detail(request, id):
-    return JsonResponse({'message': f'Product {id} detail works!'})
+class CategoryViewSet(viewsets.ModelViewSet):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
